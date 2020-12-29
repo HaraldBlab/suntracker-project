@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<module moduleId="prefix0000_dd0fa3a5a24c9bd59649d3375c41e726_5" fritzingVersion="0.1.1201" referenceFile="resistor.fzp">
+ <version>4</version>
+ <title>Suntracker sensor analog</title>
+ <label>L</label>
+ <date>Di. Dez 29 2020</date>
+ <author>Harald Blab</author>
+ <tags>
+  <tag>light sensor</tag>
+  <tag>LDR</tag>
+  <tag>suntracker</tag>
+ </tags>
+ <properties>
+  <property name="variant">variant 2</property>
+  <property name="family">light sensor</property>
+  <property name="power"></property>
+  <property name="Pin Spacing">400 mil</property>
+  <property name="part number"></property>
+  <property name="layer"></property>
+ </properties>
+ <taxonomy>discreteParts.resistor.220</taxonomy>
+ <description>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+p, li { white-space: pre-wrap; }
+&lt;/style>&lt;/head>&lt;body style=" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;">
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">An analog light sensor to track the sun position&lt;/p>&lt;/body>&lt;/html></description>
+ <spice>
+  <line>R{instanceTitle} {net connector0} {net connector1} {resistance}</line>
+ </spice>
+ <views>
+  <iconView>
+   <layers image="icon/prefix0000_dd0fa3a5a24c9bd59649d3375c41e726_5_icon.svg">
+    <layer layerId="icon"/>
+   </layers>
+  </iconView>
+  <breadboardView>
+   <layers image="breadboard/prefix0000_dd0fa3a5a24c9bd59649d3375c41e726_5_breadboard.svg">
+    <layer layerId="breadboard"/>
+   </layers>
+  </breadboardView>
+  <schematicView>
+   <layers image="schematic/prefix0000_dd0fa3a5a24c9bd59649d3375c41e726_5_schematic.svg">
+    <layer layerId="schematic"/>
+   </layers>
+  </schematicView>
+  <pcbView>
+   <layers image="pcb/prefix0000_dd0fa3a5a24c9bd59649d3375c41e726_5_pcb.svg">
+    <layer layerId="copper0"/>
+    <layer layerId="copper1"/>
+    <layer layerId="keepout"/>
+    <layer layerId="soldermask"/>
+    <layer layerId="silkscreen"/>
+    <layer layerId="outline"/>
+   </layers>
+  </pcbView>
+ </views>
+ <connectors>
+  <connector type="male" id="connector0" name="GND">
+   <description>GND</description>
+   <views>
+    <breadboardView>
+     <p layer="breadboard" svgId="connector0pin" legId="connector0leg"/>
+    </breadboardView>
+    <schematicView>
+     <p layer="schematic" svgId="connector0pin" terminalId="connector0terminal"/>
+    </schematicView>
+    <pcbView>
+     <p layer="copper0" svgId="connector0pin"/>
+     <p layer="copper1" svgId="connector0pin"/>
+    </pcbView>
+   </views>
+  </connector>
+  <connector type="male" id="connector1" name="VCC">
+   <description>VCC</description>
+   <views>
+    <breadboardView>
+     <p layer="breadboard" svgId="connector1pin" legId="connector1leg"/>
+    </breadboardView>
+    <schematicView>
+     <p layer="schematic" svgId="connector1pin" terminalId="connector1terminal"/>
+    </schematicView>
+    <pcbView>
+     <p layer="copper0" svgId="connector1pin"/>
+     <p layer="copper1" svgId="connector1pin"/>
+    </pcbView>
+   </views>
+  </connector>
+  <connector type="male" id="connector2" name="T">
+   <description>Top</description>
+   <views>
+    <breadboardView>
+     <p layer="breadboard" svgId="connector2pin"/>
+    </breadboardView>
+    <schematicView>
+     <p layer="schematic" svgId="connector2pin"/>
+    </schematicView>
+    <pcbView>
+     <p layer="copper0" svgId="connector2pin" terminalId="connector2terminal"/>
+     <p layer="copper1" svgId="connector2pin"/>
+    </pcbView>
+   </views>
+  </connector>
+  <connector type="male" id="connector3" name="L">
+   <description>Left</description>
+   <views>
+    <breadboardView>
+     <p layer="breadboard" svgId="connector3pin"/>
+    </breadboardView>
+    <schematicView>
+     <p layer="schematic" svgId="connector3pin"/>
+    </schematicView>
+    <pcbView>
+     <p layer="copper0" svgId="connector3pin"/>
+     <p layer="copper1" svgId="connector3pin"/>
+    </pcbView>
+   </views>
+  </connector>
+  <connector type="male" id="connector4" name="R">
+   <description>Right</description>
+   <views>
+    <breadboardView>
+     <p layer="breadboard" svgId="connector4pin"/>
+    </breadboardView>
+    <schematicView>
+     <p layer="schematic" svgId="connector4pin"/>
+    </schematicView>
+    <pcbView>
+     <p layer="copper0" svgId="connector4pin"/>
+     <p layer="copper1" svgId="connector4pin"/>
+    </pcbView>
+   </views>
+  </connector>
+ </connectors>
+</module>
