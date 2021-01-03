@@ -23,7 +23,7 @@ namespace Display
 
   void setup() {
     // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
-    if(!oledDisplay.begin(SSD1306_SWITCHCAPVCC, 0x3D)) { // Address 0x3D for 128x64
+    if(!oledDisplay.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
       Serial.println(F("SSD1306 allocation failed"));
       ready = false;
     } else {
@@ -47,6 +47,12 @@ namespace Display
     oledDisplay.display();      // Show initial text
   }
 
+  void clear_area(int display=0) {
+    oledDisplay.fillRect(0, 10, oledDisplay.width(), oledDisplay.height(), SSD1306_BLACK);
+    if (display)
+      oledDisplay.display();
+  }
+  
   void show_chart_border(int margin) {
     oledDisplay.drawRect(margin, margin, oledDisplay.width()- 2*margin, oledDisplay.height()-2*margin, SSD1306_WHITE);   
   }
@@ -66,6 +72,9 @@ namespace Display
   void show_chart() {
     if (! ready) return;
   
+    // clear the "active" area
+    clear_area(0);
+    // draw the information
     int margin = 10;
     show_chart_border(margin);
     int tick9h = margin + 27;
@@ -85,7 +94,8 @@ namespace Display
   void show_ready(const char *msg, bool ready, int line=1) {
     if (! ready) return;
   
-    oledDisplay.setTextSize(1); // Draw 2X-scale text
+    // draw the information
+    oledDisplay.setTextSize(1);
     oledDisplay.setTextColor(SSD1306_WHITE);
     oledDisplay.setCursor(10, 10*line);
     oledDisplay.print(msg);
@@ -97,8 +107,8 @@ namespace Display
   void show_clock(uint16_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute) {
     if (! ready) return;
   
-    // clear the "active" area);
-    oledDisplay.fillRect(0, 10, oledDisplay.width(), oledDisplay.height(), SSD1306_BLACK);
+    // clear the "active" area
+    clear_area(0);
     // draw the information
     oledDisplay.setTextSize(1); 
     oledDisplay.setTextColor(SSD1306_WHITE);
@@ -107,43 +117,40 @@ namespace Display
     oledDisplay.print(month); oledDisplay.print("/");
     oledDisplay.println(day);   
     oledDisplay.setCursor(10, 20);
-    oledDisplay.print(hour); oledDisplay.print(":"); oledDisplay.println(minute);
+    oledDisplay.print(hour); oledDisplay.print(minute < 9 ? ":0" : ":"); oledDisplay.println(minute);
     oledDisplay.display();
   }
 
   void show_compass(const char *msg, int angle) {
     if (! ready) return;
   
-    // clear the "active" area);
-    oledDisplay.fillRect(0, 10, oledDisplay.width(), oledDisplay.height(), SSD1306_BLACK);
+    // clear the "active" area
+    clear_area(0);
+    // draw the information
     oledDisplay.setTextSize(1); 
     oledDisplay.setTextColor(SSD1306_WHITE);
     oledDisplay.setCursor(10, 10);
-    oledDisplay.println(msg); 
-    oledDisplay.setCursor(10, 20);
-    oledDisplay.println(angle); 
+    oledDisplay.print(msg); 
+    oledDisplay.setCursor(oledDisplay.width()/2, 10);
+    oledDisplay.print(angle); 
     oledDisplay.display();
   }
 
   void show_daylight(const char *msg, int day) {
     if (! ready) return;
   
-    // clear the "active" area);
-    oledDisplay.fillRect(0, 10, oledDisplay.width(), oledDisplay.height(), SSD1306_BLACK);
+    // clear the "active" area
+    clear_area(0);
+    // draw the information
     oledDisplay.setTextSize(1); 
     oledDisplay.setTextColor(SSD1306_WHITE);
     oledDisplay.setCursor(10, 10);
     oledDisplay.println(msg); 
-    oledDisplay.setCursor(10, 20);
+    oledDisplay.setCursor(oledDisplay.width()/2, 10);
     oledDisplay.println(day ? "Day" : "Night"); 
     oledDisplay.display();
   }
 
-  void clear_area(int display=0) {
-    oledDisplay.fillRect(0, 10, oledDisplay.width(), oledDisplay.height(), SSD1306_BLACK);
-    if (display)
-      oledDisplay.display();
-  }
 };
 
 #endif

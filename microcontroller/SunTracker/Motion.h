@@ -53,7 +53,7 @@ public:
   }
 };
 
-int servoPanPin = 3; // define the pin of servo signal line
+int servoPanPin = 8; // define the pin of servo signal line
 int servoTiltPin = 9; // define the pin of servo signal line
 
 // azimuth angle in xy plane
