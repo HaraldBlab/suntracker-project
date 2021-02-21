@@ -16,7 +16,6 @@ namespace Sensor {
   bool ready = true;
   /* initilizes the (analog) sensor to use pins A2, A3 and A4 */
   void setup() {
-    setLightSensorMode(LIGHTSENSOR_MODE_INDOORS);
     leftSensor.setup(sensorLeftPin);
     rightSensor.setup(sensorRightPin);      
     topSensor.setup(sensorTopPin);      

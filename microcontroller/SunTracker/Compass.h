@@ -14,11 +14,9 @@ namespace Compass
   int angle() {
     _compass.readData(); //read data from sensor
     int heading = _compass.heading(); // calculate the heading to north
-    Serial.print(F("Heading: "));
-    Serial.print(heading);
-    Serial.println(F("°"));
-    // TODO: value seems to be wrong.
-    return heading + 90; // add 90 to get the value in east west
+    // Serial.print(F("Heading: ")); Serial.print(heading); Serial.println(F("°"));
+   // move get the value in east west
+    return heading < 180 ? heading : heading - 360;
   }
 }
 

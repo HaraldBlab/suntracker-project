@@ -43,6 +43,9 @@
 // Compass sensor to adjust tracker body in east west direction 
 #include "Compass.h"
 
+// Settings to run the machine in service mode or inhouse
+#include "Settings.h"
+
 #define STATE_INIT 0      // loop initializations
 #define STATE_RUN 1       // track the sun position
 #define STATE_SCAN 2      // scan for the sun
@@ -51,12 +54,17 @@
 #define STATE_CLOCK 5     // show date and time
 #define STATE_COMPASS 6   // show compass heading
 #define STATE_DAYLIGHT 7  // show the status of the day or night sensor
+// service mode states
+#define STATE_SERVICE 8   // run in service mode
+
 int state = STATE_INIT;
 
 #define VERSION "1.0 Azimuth/Altitude"
 
 void setup() {
   Serial.begin(115200);
+  // initialize the settings
+  Settings::setup();
   // initialize the clock
   Clock::setup();
   // intialize the display
@@ -65,6 +73,8 @@ void setup() {
   Motion::setup();
   // initialize the (analog) light sensor
   Sensor::trace = 1;
+  if (Settings::lightingMode())
+      setLightSensorMode(LIGHTSENSOR_MODE_INDOORS);
   Sensor::setup();
   // initialize the compass
   Compass::setup();
@@ -72,6 +82,8 @@ void setup() {
   Daylight::setup(Daylight::Indoors);
   // Just to know which program is running on my Arduino
   Serial.println(F("START " __FILE__ "\r\nVersion " VERSION " from " __DATE__ " at " __TIME__));
+  Serial.print(F("Service mode  : ")); Serial.println(Settings::serviceMode() ? F("On") : F("Off")); 
+  Serial.print(F("Lighting mode : ")); Serial.println(Settings::lightingMode() ? F("On") : F("Off")); 
   // start the state machine
   state = STATE_INIT;
 }
@@ -168,6 +180,8 @@ void actionChangeState(int nextState) {
     Display::showState("Compass ..");
   } else if (state == STATE_DAYLIGHT) {
     Display::showState("Daylight ..");
+  } else if (state == STATE_SERVICE) {
+    Display::showState("Service ..");
   }
 }
 
@@ -205,11 +219,51 @@ void actionDaylight()
   delay(3000); // give some time to read
 }
 
+void actionServiceCompass() {
+  // TODO: Display::showState("Service compass ..");
+  // adjust comass (5 tries)
+  for (int i = 0; i < 5; i++) {
+    Display::show_compass("Rotation", Compass::angle());
+    delay(1000); // give some time to read
+  }
+}
+void actionServiceMotion() {
+  Motion::home();
+  //TODO: Display::showState("Service pan motion ..");
+  Display::show_chart();
+  while (!Motion::atWest()){
+    Motion::toWest();
+    Motion::waitCompleted();
+  }
+  // TODO: Display::showState("Service tilt motion ..");
+  Display::show_chart();
+  while (!Motion::atNorth()){
+    Motion::toNorth();
+    Motion::waitCompleted();
+  }
+  Motion::home();
+}
+
+void actionService(){
+  Serial.println(F("Service ..."));
+  Display::showState("Service ..");
+  delay(3000); // give some time to read
+  // verify the compass
+  actionServiceCompass();
+  // verify the motion part
+  actionServiceMotion();
+  // ready for reboot
+  Display::showState("Ready to reboot..");
+  delay(3000); // give some time to read
+}
+
 void loop() {
   if (state == STATE_INIT) {
     Motion::home();
-    Serial.print(F("Clock: ")); Serial.println(Clock::ready ? F("ready") : F("off"));
-    actionChangeState(STATE_READY);
+    if (Settings::serviceMode())
+      actionChangeState(STATE_SERVICE);
+    else
+      actionChangeState(STATE_READY);
   } else if (state == STATE_READY) {
     actionReady();
     actionChangeState(STATE_CLOCK);
@@ -237,6 +291,9 @@ void loop() {
       if (trackerState == Failed)
         actionChangeState(STATE_SCAN);
   } else if (state == STATE_DELAY) {
+    delay(1000);
+  } else if (state == STATE_SERVICE) {
+    actionService();
     delay(1000);
   }
 }

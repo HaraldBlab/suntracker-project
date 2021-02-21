@@ -1,5 +1,5 @@
 ## suntracker using microcontroller
-An arduino project that handles the suntracker-
+An arduino project that handles the suntracker.
 
 ### Done so far
 Implementation for Arduino Uno
